@@ -1,13 +1,17 @@
 FROM python:3.12-slim
 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-# 安装依赖
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# 配置 pip 国内镜像源（解决 DNS 解析问题）
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
-# 复制项目文件
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
-# 默认运行测试脚本（后续可改为生产入口）
-CMD ["python", "main.py"]
+CMD ["python", "test_boc.py"]
