@@ -56,7 +56,7 @@ def main():
         job,
         trigger="cron",
         hour=9,
-        minute=30,
+        minute=31,
         id="boc_exchange_rate_daily",
         replace_existing=True,
     )
